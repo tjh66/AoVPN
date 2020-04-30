@@ -1,0 +1,99 @@
+Remove-AzVpnClientIpsecParameter -VirtualNetworkGatewayName 'uks-vnet001-vnetg-001' -ResourceGroupName uks-prd-rsg-net
+
+Get-AzContext
+Set-AzContext -SubscriptionName 'eccprd'
+
+$Gateway = 'uks-vnet001-vnetg-001'
+$ResourceGroup = 'uks-prd-rsg-net'
+
+$IPsecPolicy = New-AzVpnClientIpsecParameter -IpsecEncryption AES128 -IpsecIntegrity SHA256 -SALifeTime 28800 -SADataSize 102400000 -IkeEncryption AES128 -IkeIntegrity SHA256 -DhGroup DHGroup14 -PfsGroup PFS14
+
+Set-AzVpnClientIpsecParameter -VirtualNetworkGatewayName $Gateway -ResourceGroupName $ResourceGroup -VpnClientIPsecParameter $IPsecPolicy
+
+
+
+
+cmdlet Get-AzVirtualNetworkGateway at command pipeline position 1
+Supply values for the following parameters:
+(Type !? for Help.)
+ResourceGroupName: uks-prd-rsg-net
+
+Name                   : uks-vnet001-vnetg-001
+ResourceGroupName      : uks-prd-rsg-net
+Location               : uksouth
+Id                     : /subscriptions/fb1c2046-78b4-45db-a1ce-e0483a02e664/resourceGroups/uks-prd-rsg-net/providers/Microsoft.Network/virtualNetworkGateways/uks-vnet001-vnetg-001
+Etag                   : W/"a92b876c-b91d-4239-b77f-d5dfd7ad2c58"
+ResourceGuid           : 0e9255e1-e1ca-4e88-9b53-113c4c795d44
+ProvisioningState      : Succeeded
+Tags                   :
+                         Name              Value
+                         ================  ===========================
+                         Environment       Production
+                         Description       Networking
+                         TSSupportingTeam  None
+                         CostCentre        None
+                         BuildDate         20200409
+                         BuildBy           jlow
+                         BuildTicket       200402-05665
+                         BaseService       Yes
+                         ServiceOwner      Platform and Infrastructure
+                         ServiceName       AlwaysOn
+
+IpConfigurations       : [
+                           {
+                             "PrivateIpAllocationMethod": "Dynamic",
+                             "Subnet": {
+                               "Id": "/subscriptions/fb1c2046-78b4-45db-a1ce-e0483a02e664/resourceGroups/uks-prd-rsg-net/providers/Microsoft.Network/virtualNetworks/uks-vnet001/subnets/GatewaySubnet"
+                             },
+                             "PublicIpAddress": {
+                               "Id": "/subscriptions/fb1c2046-78b4-45db-a1ce-e0483a02e664/resourceGroups/uks-prd-rsg-net/providers/Microsoft.Network/publicIPAddresses/uks-vnet001-vnetg-001-pip"
+                             },
+                             "Name": "vnetGatewayConfig",
+                             "Etag": "W/\"a92b876c-b91d-4239-b77f-d5dfd7ad2c58\"",
+                             "Id": "/subscriptions/fb1c2046-78b4-45db-a1ce-e0483a02e664/resourceGroups/uks-prd-rsg-net/providers/Microsoft.Network/virtualNetworkGateways/uks-vnet001-vnetg-001/ipConfiguratio
+                         ns/vnetGatewayConfig"
+                           }
+                         ]
+GatewayType            : Vpn
+VpnType                : RouteBased
+EnableBgp              : True
+ActiveActive           : False
+GatewayDefaultSite     : null
+Sku                    : {
+                           "Capacity": 2,
+                           "Name": "VpnGw4",
+                           "Tier": "VpnGw4"
+                         }
+VpnClientConfiguration : {
+                           "VpnClientProtocols": [
+                             "IkeV2",
+                             "OpenVPN"
+                           ],
+                           "VpnClientAddressPool": {
+                             "AddressPrefixes": [
+                               "10.13.0.0/19"
+                             ]
+                           },
+                           "VpnClientRootCertificates": [
+                             {
+                               "Name": "ROOTCA",
+                               "Etag": "W/\"a92b876c-b91d-4239-b77f-d5dfd7ad2c58\"",
+                               "Id": "/subscriptions/fb1c2046-78b4-45db-a1ce-e0483a02e664/resourceGroups/uks-prd-rsg-net/providers/Microsoft.Network/virtualNetworkGateways/uks-vnet001-vnetg-001/vpnClientRoo
+                         tCertificates/ROOTCA",
+                               "PublicCertData": "MIICXTCCAgOgAwIBAgIQFtZQqkGMGb1BtDCuRvKDLjAKBggqhkjOPQQDAjCBhjEL MAkGA1UEBhMCVUsxDjAMBgNVBAgTBUVzc2V4MRMwEQYDVQQHEwpDaGVsbXNmb3Jk
+                         MR0wGwYDVQQKExRFc3NleCBDb3VudHkgQ291bmNpbDEdMBsGA1UECxMUSW5mb3Jt YXRpb24gU2VydmljZXMxFDASBgNVBAMTC0VDQyBSb290IENBMB4XDTE3MDEyNDE0
+                         MzYwNFoXDTI3MDEyNDE0NDYwM1owgYYxCzAJBgNVBAYTAlVLMQ4wDAYDVQQIEwVF c3NleDETMBEGA1UEBxMKQ2hlbG1zZm9yZDEdMBsGA1UEChMURXNzZXggQ291bnR5
+                         IENvdW5jaWwxHTAbBgNVBAsTFEluZm9ybWF0aW9uIFNlcnZpY2VzMRQwEgYDVQQD EwtFQ0MgUm9vdCBDQTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABKRZmMjucNqL
+                         YdpOtGGDn5rcuZdcCwngGByj/rC95UcICuidDKJUI1ezpIqe278tlYjWTh/UGDr8 MsrtibKE+pOjUTBPMAsGA1UdDwQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MB0GA1Ud
+                         DgQWBBTgeJYZMAGC7o/aDZNFVg8lPYEVxTAQBgkrBgEEAYI3FQEEAwIBADAKBggq hkjOPQQDAgNIADBFAiEAr8SwLit0GtYxkht6iKUGAkozcYwhwx0/8CBZ/QjprU0C IBBCGD/BWWIBV1s3NlckYIAOFe49YNf8aUsCu12lg9k7",
+                               "ProvisioningState": "Succeeded"
+                             }
+                           ],
+                           "VpnClientRevokedCertificates": [],
+                           "VpnClientIpsecPolicies": []
+                         }
+BgpSettings            : {
+                           "Asn": 65020,
+                           "BgpPeeringAddress": "10.12.1.40",
+                           "PeerWeight": 0
+                         }
