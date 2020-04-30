@@ -1,0 +1,108 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualNetworkGateways_uks_vnet001_vnetg_001_name": {
+            "defaultValue": "uks-vnet001-vnetg-001",
+            "type": "String"
+        },
+        "publicIPAddresses_uks_vnet001_vnetg_001_pip_externalid": {
+            "defaultValue": "/subscriptions/fb1c2046-78b4-45db-a1ce-e0483a02e664/resourceGroups/uks-prd-rsg-net/providers/Microsoft.Network/publicIPAddresses/uks-vnet001-vnetg-001-pip",
+            "type": "String"
+        },
+        "virtualNetworks_uks_vnet001_externalid": {
+            "defaultValue": "/subscriptions/fb1c2046-78b4-45db-a1ce-e0483a02e664/resourceGroups/uks-prd-rsg-net/providers/Microsoft.Network/virtualNetworks/uks-vnet001",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworkGateways",
+            "apiVersion": "2019-12-01",
+            "name": "[parameters('virtualNetworkGateways_uks_vnet001_vnetg_001_name')]",
+            "location": "uksouth",
+            "tags": {
+                "Environment": "Production",
+                "Description": "Networking",
+                "TSSupportingTeam": "None",
+                "CostCentre": "None",
+                "BuildDate": "20200409",
+                "BuildBy": "jlow",
+                "BuildTicket": "200402-05665",
+                "BaseService": "Yes",
+                "ServiceOwner": "Platform and Infrastructure",
+                "ServiceName": "AlwaysOn"
+            },
+            "properties": {
+                "enablePrivateIpAddress": false,
+                "ipConfigurations": [
+                    {
+                        "name": "vnetGatewayConfig",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[parameters('publicIPAddresses_uks_vnet001_vnetg_001_pip_externalid')]"
+                            },
+                            "subnet": {
+                                "id": "[concat(parameters('virtualNetworks_uks_vnet001_externalid'), '/subnets/GatewaySubnet')]"
+                            }
+                        }
+                    }
+                ],
+                "sku": {
+                    "name": "VpnGw4",
+                    "tier": "VpnGw4"
+                },
+                "gatewayType": "Vpn",
+                "vpnType": "RouteBased",
+                "enableBgp": true,
+                "activeActive": false,
+                "vpnClientConfiguration": {
+                    "vpnClientAddressPool": {
+                        "addressPrefixes": [
+                            "10.13.0.0/19"
+                        ]
+                    },
+                    "vpnClientProtocols": [
+                        "IkeV2",
+                        "OpenVPN"
+                    ],
+                    "vpnClientRootCertificates": [
+                        {
+                            "name": "ROOTCA",
+                            "properties": {
+                                "publicCertData": "MIICXTCCAgOgAwIBAgIQFtZQqkGMGb1BtDCuRvKDLjAKBggqhkjOPQQDAjCBhjEL MAkGA1UEBhMCVUsxDjAMBgNVBAgTBUVzc2V4MRMwEQYDVQQHEwpDaGVsbXNmb3Jk MR0wGwYDVQQKExRFc3NleCBDb3VudHkgQ291bmNpbDEdMBsGA1UECxMUSW5mb3Jt YXRpb24gU2VydmljZXMxFDASBgNVBAMTC0VDQyBSb290IENBMB4XDTE3MDEyNDE0 MzYwNFoXDTI3MDEyNDE0NDYwM1owgYYxCzAJBgNVBAYTAlVLMQ4wDAYDVQQIEwVF c3NleDETMBEGA1UEBxMKQ2hlbG1zZm9yZDEdMBsGA1UEChMURXNzZXggQ291bnR5 IENvdW5jaWwxHTAbBgNVBAsTFEluZm9ybWF0aW9uIFNlcnZpY2VzMRQwEgYDVQQD EwtFQ0MgUm9vdCBDQTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABKRZmMjucNqL YdpOtGGDn5rcuZdcCwngGByj/rC95UcICuidDKJUI1ezpIqe278tlYjWTh/UGDr8 MsrtibKE+pOjUTBPMAsGA1UdDwQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MB0GA1Ud DgQWBBTgeJYZMAGC7o/aDZNFVg8lPYEVxTAQBgkrBgEEAYI3FQEEAwIBADAKBggq hkjOPQQDAgNIADBFAiEAr8SwLit0GtYxkht6iKUGAkozcYwhwx0/8CBZ/QjprU0C IBBCGD/BWWIBV1s3NlckYIAOFe49YNf8aUsCu12lg9k7"
+                            }
+                        }
+                    ],
+                    "vpnClientRevokedCertificates": [],
+                    "vpnClientIpsecPolicies": [
+                        {
+                            "saLifeTimeSeconds": 28800,
+                            "saDataSizeKilobytes": 102400000,
+                            "ipsecEncryption": "AES128",
+                            "ipsecIntegrity": "SHA256",
+                            "ikeEncryption": "AES128",
+                            "ikeIntegrity": "SHA256",
+                            "dhGroup": "DHGroup14",
+                            "pfsGroup": "None"
+                        }
+                    ]
+                },
+                "bgpSettings": {
+                    "asn": 65020,
+                    "bgpPeeringAddress": "10.12.1.40",
+                    "peerWeight": 0,
+                    "bgpPeeringAddresses": [
+                        {
+                            "ipconfigurationId": "[concat(resourceId('Microsoft.Network/virtualNetworkGateways', parameters('virtualNetworkGateways_uks_vnet001_vnetg_001_name')), '/ipConfigurations/vnetGatewayConfig')]",
+                            "customBgpIpAddresses": []
+                        }
+                    ]
+                },
+                "vpnGatewayGeneration": "Generation2"
+            }
+        }
+    ]
+}
